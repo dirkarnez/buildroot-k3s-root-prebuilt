@@ -10,19 +10,19 @@ permissions:
 
 jobs:
   build:
-    strategy:
-      matrix:
-        defconfig: [ mx6cubox_defconfig ]
+    # strategy:
+    #   matrix:
+    #     defconfig: [ mx6cubox_defconfig ]
         
     runs-on: ubuntu-latest
     env:
-      libraryName: buildroot
-      tagName: 2024.08.2
+      libraryName: k3s-root
+      tagName: v0.14.1
     steps:
     
       - uses: actions/checkout@v4
         with:
-          repository: buildroot/buildroot
+          repository: k3s-io/k3s-root
           ref: ${{ env.tagName }}
           path: ${{ env.libraryName }}
           submodules: true
@@ -110,7 +110,7 @@ jobs:
       
       - run: |
           cd ${{ env.libraryName }} && \
-          make ${{ matrix.defconfig }}  && \
+          make ARCH=arm && \
           make -j8
             
   # qemu_aarch64_virt_defconfig
